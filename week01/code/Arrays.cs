@@ -8,12 +8,24 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+       //Plan (step-by-step):
+       //validate input: 'length' muat be >0 (as per problem statement).If not, throw an exception.
+       //Create a result array of size 'length'
+       //Fill the array so that position i (0-based) contains number * (i + 1)
+       //  - i = 0 => number * 1
+       //  - i = 1 => number * 2
+       //   - ...
+       //   - i = length - 1 => number * length
+       // Return the filled array.
 
-        return []; // replace this return statement with your own
+       if (length <= 0)
+        throw new ArgumentOutOfRangeException(nameof(length), "length must be greater than 0.");
+        var result = new double[length];
+        for (int i = 0; i < length; i++)
+        { 
+            result[i] = number * (i + 1); 
+        } 
+        return result;
     }
 
     /// <summary>
@@ -25,9 +37,28 @@ public static class Arrays
     /// </summary>
     public static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // PLAN (step-by-step) — segmentation approach using GetRange/RemoveRange/InsertRange: 
+        // 1) Validate input: if 'data' is null => throw; if data.Count == 0 => nothing to do; if amount == 0 => nothing to do. 
+        // 2) Normalize 'amount' with modulo: amount %= data.Count. Full rotations leave the list unchanged. 
+        // If after normalization amount == 0 => return. 
+        // 3) Compute split index: split = data.Count - amount. 
+        // This split separates the list into:
+        // - tail = last 'amount' elements (to move to the front) 
+        // - head = the rest (to remain after the tail)
+        // 4) Extract tail with data.GetRange(split, amount).
+        // 5) Remove that tail from the end using data.RemoveRange(split, amount). 
+        // 6) Insert the tail at the beginning using data.InsertRange(0, tail).
+        // 7) The list 'data' is modified in place as required. 
+
+        
+        if (data == null) throw new ArgumentNullException(nameof(data)); 
+        int n = data.Count;
+        if (n == 0 || amount == 0) return;
+        amount %= n; 
+        if (amount == 0) return;
+        int split = n - amount;
+        var tail = data.GetRange(split, amount);
+        data.RemoveRange(split, amount);
+        data.InsertRange(0, tail);
     }
 }
