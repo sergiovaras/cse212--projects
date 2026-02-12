@@ -12,9 +12,9 @@ public class BinarySearchTree : IEnumerable<int>
         // Create new node
         Node newNode = new(value);
         // If the list is empty, then point both head and tail to the new node.
-        if (_root is null)
+        if (_root == null)
         {
-            _root = newNode;
+            _root = new Node(value);
         }
         // If the list is not empty, then only head will be affected.
         else
@@ -38,7 +38,6 @@ public class BinarySearchTree : IEnumerable<int>
     /// </summary>
     IEnumerator IEnumerable.GetEnumerator()
     {
-        // call the generic version of the method
         return GetEnumerator();
     }
 
@@ -54,43 +53,43 @@ public class BinarySearchTree : IEnumerable<int>
             yield return number;
         }
     }
+    
+    /// <summary>
+    /// Iterate backward through the BST.
+    /// </summary>
 
     private void TraverseForward(Node? node, List<int> values)
     {
-        if (node is not null)
+        if (node != null)
         {
             TraverseForward(node.Left, values);
             values.Add(node.Data);
             TraverseForward(node.Right, values);
         }
     }
-
-    /// <summary>
-    /// Iterate backward through the BST.
-    /// </summary>
-    public IEnumerable Reverse()
+    public IEnumerable<int> Reversed()
     {
-        var numbers = new List<int>();
+        var numbers= new List<int>();
         TraverseBackward(_root, numbers);
-        foreach (var number in numbers)
+        return numbers; 
+    }
+    private void TraverseBackward(Node? node, List<int> values)
+    {
+        if (node != null)
         {
-            yield return number;
+            TraverseBackward(node.Right, values);
+            values.Add(node.Data);
+            TraverseBackward(node.Left, values);
         }
     }
 
-    private void TraverseBackward(Node? node, List<int> values)
-    {
-        // TODO Problem 3
-    }
 
     /// <summary>
     /// Get the height of the tree
     /// </summary>
     public int GetHeight()
     {
-        if (_root is null)
-            return 0;
-        return _root.GetHeight();
+        return _root?.GetHeight() ?? 0;
     }
 
     public override string ToString()
