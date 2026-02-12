@@ -6,7 +6,7 @@ public class Node
 
     public Node(int data)
     {
-        this.Data = data;
+        Data = data;
     }
 
     public void Insert(int value)
